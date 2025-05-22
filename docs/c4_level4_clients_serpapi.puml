@@ -1,0 +1,22 @@
+@startuml Clients_SerpApi_Module_Classes
+!theme materia
+skinparam linetype ortho
+skinparam BackgroundColor White
+
+title Nível 4: Detalhes do Módulo Cliente SerpApi
+
+package "clients/serpapi_client.py" {
+  class SerpApiClient {
+    -api_key : str
+    +BASE_URL : str
+    +__init__(api_key: str)
+    +search(query: str, start: int, num: int, hl: str, gl: str) : dict
+  }
+  ' Presumindo que settings_instance é uma dependência externa para o escopo deste diagrama
+  ' Se quiser mostrá-lo, você pode declará-lo como:
+  ' object settings_instance
+  ' SerpApiClient *-- settings_instance : "usa (para chave API padrão)"
+  ' No entanto, para um diagrama de módulo focado, mostrar apenas a classe geralmente é suficiente.
+}
+
+@enduml

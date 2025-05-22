@@ -1,0 +1,27 @@
+@startuml Main_Module_Details
+!theme materia
+skinparam linetype ortho
+skinparam BackgroundColor White
+
+title Nível 4: Detalhes do Módulo Principal
+
+package "main.py" {
+  component "Lógica Principal" {
+    () run
+  }
+  ' Para clareza, liste dependências como notas ou componentes abstratos
+  ' em vez de tentar linkar através de arquivos .puml separados diretamente no diagrama.
+  note right of "Lógica Principal"
+    Usa/Chama:
+    - SerpApiClient
+    - Funções de Extração (de extractors.py)
+    - SearchResult (instancia)
+    - Funções de Exportação (de exporters.py)
+    - settings_instance (de config.py)
+    - Funções de Logging (de logger.py)
+    - tqdm
+    - requests
+    - BeautifulSoup
+  end note
+}
+@enduml

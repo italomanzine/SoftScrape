@@ -1,0 +1,13 @@
+@startuml Logger_Module_Details
+!theme materia
+skinparam linetype ortho
+skinparam BackgroundColor White
+
+title Nível 4: Detalhes do Módulo Logger
+
+package "logger.py" {
+  component "Funções de Logging" {
+    () get_logger
+  }
+}
+@enduml

@@ -1,0 +1,21 @@
+@startuml Models_Module_Classes
+!theme materia
+skinparam linetype ortho
+skinparam BackgroundColor White
+
+title Nível 4: Detalhes do Módulo de Modelos
+
+package "models.py" {
+  class SearchResult <<Dataclass>> {
+    +title: str
+    +author: str
+    +abstract: str
+    +source: str
+    +year: str
+    +doc_type: str
+    +base: str
+    +link: str
+  }
+}
+
+@enduml

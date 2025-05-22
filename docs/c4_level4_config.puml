@@ -1,0 +1,19 @@
+@startuml Config_Module_Classes
+!theme materia
+skinparam linetype ortho
+skinparam BackgroundColor White
+
+title Nível 4: Detalhes do Módulo de Configuração
+
+package "config.py" {
+  class Settings {
+    +SERPAPI_API_KEY : str
+    +QUERY : str
+    +PAGES : int
+    +PAUSE_SEC : float
+  }
+  object settings_instance
+  Settings ..> settings_instance : "é instanciado como"
+}
+
+@enduml

@@ -1,0 +1,29 @@
+@startuml Extractors_Module_Details
+!theme materia
+skinparam linetype ortho
+skinparam BackgroundColor White
+
+title Nível 4: Detalhes do Módulo de Extratores
+
+package "extractors.py" {
+  component "Funções de Extração" {
+    () extract_author
+    () extract_year
+    () extract_doc_type
+    () extract_base
+  }
+  ' Dependências externas (bibliotecas)
+  note right of "Funções de Extração"
+    Usa:
+    - BeautifulSoup
+    - find_date (datefinder)
+    - urlparse (urllib.parse)
+    - requests
+  end note
+  ' "Funções de Extração" ..> BeautifulSoup : "usa"
+  ' "Funções de Extração" ..> find_date : "usa"
+  ' "Funções de Extração" ..> urlparse : "usa"
+  ' "Funções de Extração" ..> requests : "usa"
+}
+
+@enduml

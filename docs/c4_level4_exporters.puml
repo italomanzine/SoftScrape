@@ -1,0 +1,23 @@
+@startuml Exporters_Module_Details
+!theme materia
+skinparam linetype ortho
+skinparam BackgroundColor White
+
+title Nível 4: Detalhes do Módulo de Exportadores
+
+package "exporters.py" {
+  component "Funções de Exportação" {
+    () to_csv
+  }
+  ' Presumindo que SearchResult é definido em outro lugar (ex: models.puml)
+  ' e pd.DataFrame é uma biblioteca externa.
+  note right of "Funções de Exportação"
+    Usa:
+    - pd.DataFrame (pandas)
+    Processa lista de:
+    - SearchResult
+  end note
+  ' "Funções de Exportação" ..> pd.DataFrame : "usa"
+  ' "Funções de Exportação" ..> SearchResult : "processa lista de"
+}
+@enduml
