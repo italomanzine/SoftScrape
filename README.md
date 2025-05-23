@@ -141,7 +141,7 @@ graph TD
     A["Configuração Inicial: Definir QUERY em config.py"] --> A1{"Usuário Escolhe Buscador (Google/Scholar)"};
     A1 --> B("SerpApiClient: Realiza busca no motor escolhido via SerpAPI");
     B -- "Resultados da Busca" --> C{"Para cada Resultado Orgânico"};
-    C -- "Link do Resultado" --> D("Acessa Página Web");
+C -- "Link do Resultado" --> D("Acessa Página Web");
     D --> E("Extractors.py: Extrai Metadados");
     E -- "Autor, Resumo, Ano, Tipo, Base" --> F("SearchResult Dataclass: Estrutura os Dados");
     F --> G("Exporters.py: Agrega Resultados");
@@ -154,19 +154,46 @@ graph TD
     E --> E4["extract_base"];
     E --> E5["extract_abstract"];
 
-    style A fill:#f9f,stroke:#333,stroke-width:2px;
-    style A1 fill:#f9f,stroke:#333,stroke-width:2px;
-    style B fill:#ccf,stroke:#333,stroke-width:2px;
-    style C fill:#cdf,stroke:#333,stroke-width:2px;
-    style D fill:#f96,stroke:#333,stroke-width:2px;
-    style E fill:#bfa,stroke:#333,stroke-width:2px;
-    style F fill:#9cf,stroke:#333,stroke-width:2px;
-    style G fill:#fec,stroke:#333,stroke-width:2px;
-    style H fill:#9f9,stroke:#333,stroke-width:2px;
-    style Z fill:#ffcc00,stroke:#333,stroke-width:2px;
-    style E1 fill:#e6e6fa,stroke:#333,stroke-width:2px;
-    style E2 fill:#e6e6fa,stroke:#333,stroke-width:2px;
-    style E3 fill:#e6e6fa,stroke:#333,stroke-width:2px;
-    style E4 fill:#e6e6fa,stroke:#333,stroke-width:2px;
-    style E5 fill:#e6e6fa,stroke:#333,stroke-width:2px;
+    style A fill:#f9f,stroke:#333,stroke-width:2px,color:#000;
+    style A1 fill:#f9f,stroke:#333,stroke-width:2px,color:#000;
+    style B fill:#fff,stroke:#000,stroke-width:2px,color:#000;
+    style C fill:#fff,stroke:#000,stroke-width:2px,color:#000;
+    style D fill:#fff,stroke:#000,stroke-width:2px,color:#000;
+    style E fill:#fff,stroke:#000,stroke-width:2px,color:#000;
+    style F fill:#fff,stroke:#000,stroke-width:2px,color:#000;
+    style G fill:#fff,stroke:#000,stroke-width:2px,color:#000;
+    style H fill:#9f9,stroke:#333,stroke-width:2px,color:#000;
+    style Z fill:#ffcc00,stroke:#333,stroke-width:2px,color:#000;
+    style E1 fill:#eee,stroke:#000,stroke-width:2px,color:#000;
+    style E2 fill:#eee,stroke:#000,stroke-width:2px,color:#000;
+    style E3 fill:#eee,stroke:#000,stroke-width:2px,color:#000;
+    style E4 fill:#eee,stroke:#000,stroke-width:2px,color:#000;
+    style E5 fill:#eee,stroke:#000,stroke-width:2px,color:#000;
 ```
+
+## 🏛️ Modelo C4
+
+Abaixo estão os diagramas C4 que ilustram a arquitetura do SoftScrape em diferentes níveis de detalhe.
+
+### Nível 1-3: Contexto Geral do Sistema
+
+![C4 SoftScrape Context Diagram](docs/C4_SoftScrape.png)
+
+### Nível 4: Detalhes de Componentes Específicos
+
+Os seguintes diagramas detalham componentes específicos do sistema:
+
+- **Clients (SerpAPI):**
+  ![C4 Level 4 Clients SerpAPI](docs/c4_level4_clients_serpapi.puml)
+- **Config:**
+  ![C4 Level 4 Config](docs/c4_level4_config.puml)
+- **Exporters:**
+  ![C4 Level 4 Exporters](docs/c4_level4_exporters.puml)
+- **Extractors:**
+  ![C4 Level 4 Extractors](docs/c4_level4_extractors.puml)
+- **Logger:**
+  ![C4 Level 4 Logger](docs/c4_level4_logger.puml)
+- **Main:**
+  ![C4 Level 4 Main](docs/c4_level4_main.puml)
+- **Models:**
+  ![C4 Level 4 Models](docs/c4_level4_models.puml)
