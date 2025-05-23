@@ -31,6 +31,7 @@ def extract_author(soup: BeautifulSoup) -> str:
         '[itemprop="author"] span[itemprop="name"]',
         'a[rel="author"]',
         '.byline .author',
+        '.byline',
         '.post-author .fn',
         '.entry-author .author-name',
         'meta[property="article:author_name"]'
@@ -133,6 +134,9 @@ def extract_base(url: str) -> str:
     """
     try:
         parsed_url = urlparse(url)
-        return parsed_url.netloc
+        netloc = parsed_url.netloc
+        if isinstance(netloc, bytes):
+            return netloc.decode('utf-8', 'ignore') 
+        return netloc if netloc else ""
     except Exception:
         return ""

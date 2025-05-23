@@ -14,3 +14,8 @@ __pycache__/
 
 # Outputs
 outputs/
+
+# Test & Coverage Artifacts
+.pytest_cache/
+.coverage
+htmlcov/

@@ -71,9 +71,40 @@ O script irá perguntar qual buscador você deseja usar:
    ```
 Você verá progresso no terminal (páginas e resultados) e, no final, receberá log de onde o CSV foi salvo, exemplo:
    ```bash
-   INFO – CSV salvo em 'src/softscrape/outputs/resultados_pesquisa_google_scholar_20250522_212537.csv'
-   INFO - Erros (se houver) foram registrados em 'src/softscrape/outputs/errors/log_errors.txt'
+   INFO – CSV salvo em \'src/softscrape/outputs/resultados_pesquisa_google_scholar_20250522_212537.csv\'
+   INFO - Erros (se houver) foram registrados em \'src/softscrape/outputs/errors/log_errors.txt\'
    ```
+
+## ✅ Testes Automatizados
+
+O projeto utiliza `pytest` para testes unitários e `pytest-cov` para medição de cobertura de código.
+
+### Como rodar os testes
+
+1.  Certifique-se de que as dependências de desenvolvimento estão instaladas (incluindo `pytest` e `pytest-cov`, que estão no `requirements.txt`).
+2.  Na raiz do projeto, execute:
+
+    ```bash
+    pytest
+    ```
+
+### Gerando Relatório de Cobertura
+
+Para gerar um relatório de cobertura e visualizá-lo em HTML:
+
+1.  Execute o seguinte comando na raiz do projeto:
+
+    ```bash
+    pytest --cov=src --cov-report=html
+    ```
+2.  Abra o arquivo `htmlcov/index.html` no seu navegador para ver o relatório detalhado.
+
+Os testes cobrem os principais componentes do `src/softscrape/`, incluindo:
+- `config.py`
+- `exporters.py`
+- `extractors.py`
+- `logger.py`
+- `models.py`
 
 📂 Estrutura do projeto
    ```bash

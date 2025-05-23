@@ -4,3 +4,6 @@ pandas
 htmldate
 python-dotenv
 tqdm
+urllib3==2.2.1
+pytest
+pytest-cov

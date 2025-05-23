@@ -9,7 +9,8 @@ OUTPUT_DIR_NAME = "outputs"
 ERROR_DIR_NAME = "errors"
 ERROR_LOG_FILENAME = "log_errors.txt"
 
-ERROR_LOG_DIR = os.path.join(LOG_OUTPUT_PARENT_DIR, OUTPUT_DIR_NAME, ERROR_DIR_NAME)
+LOG_DIR_PATH = os.path.join(LOG_OUTPUT_PARENT_DIR, OUTPUT_DIR_NAME)
+ERROR_LOG_DIR = os.path.join(LOG_DIR_PATH, ERROR_DIR_NAME)
 ERROR_LOG_FILE_PATH = os.path.join(ERROR_LOG_DIR, ERROR_LOG_FILENAME)
 
 os.makedirs(ERROR_LOG_DIR, exist_ok=True)
@@ -36,10 +37,13 @@ def get_logger(name: str) -> logging.Logger:
         root_logger = logging.getLogger()
         root_logger.setLevel(logging.INFO)
 
-        if not root_logger.handlers:
+        # Ensure our specific handlers are on the root logger.
+        # The logging module handles duplicates gracefully (won't add if already present).
+        if console_handler not in root_logger.handlers:
             root_logger.addHandler(console_handler)
+        if error_file_handler not in root_logger.handlers:
             root_logger.addHandler(error_file_handler)
-
+        
         _handlers_configured = True
 
     return logger
