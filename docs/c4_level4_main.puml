@@ -13,15 +13,17 @@ package "main.py" {
   ' em vez de tentar linkar através de arquivos .puml separados diretamente no diagrama.
   note right of "Lógica Principal"
     Usa/Chama:
-    - SerpApiClient
-    - Funções de Extração (de extractors.py)
+    - Input do usuário para escolher motor de busca
+    - SerpApiClient (com parâmetro `engine`)
+    - Funções de Extração (de extractors.py, incluindo `extract_abstract`)
     - SearchResult (instancia)
-    - Funções de Exportação (de exporters.py)
+    - Funções de Exportação (de exporters.py, com `engine_name`)
     - settings_instance (de config.py)
     - Funções de Logging (de logger.py)
     - tqdm
     - requests
     - BeautifulSoup
+    - re (módulo de expressões regulares)
   end note
 }
 @enduml

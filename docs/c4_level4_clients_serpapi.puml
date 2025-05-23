@@ -10,7 +10,7 @@ package "clients/serpapi_client.py" {
     -api_key : str
     +BASE_URL : str
     +__init__(api_key: str)
-    +search(query: str, start: int, num: int, hl: str, gl: str) : dict
+    +search(query: str, start: int, num: int, hl: str, gl: str, engine: str) : dict
   }
   ' Presumindo que settings_instance é uma dependência externa para o escopo deste diagrama
   ' Se quiser mostrá-lo, você pode declará-lo como:

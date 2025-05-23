@@ -7,7 +7,7 @@ title Nível 4: Detalhes do Módulo de Exportadores
 
 package "exporters.py" {
   component "Funções de Exportação" {
-    () to_csv
+    () to_csv(results: List[SearchResult], prefix: str, engine_name: str)
   }
   ' Presumindo que SearchResult é definido em outro lugar (ex: models.puml)
   ' e pd.DataFrame é uma biblioteca externa.
@@ -16,6 +16,10 @@ package "exporters.py" {
     - pd.DataFrame (pandas)
     Processa lista de:
     - SearchResult
+    Gera nome de arquivo CSV incluindo:
+    - prefix
+    - engine_name
+    - timestamp
   end note
   ' "Funções de Exportação" ..> pd.DataFrame : "usa"
   ' "Funções de Exportação" ..> SearchResult : "processa lista de"

@@ -9,5 +9,10 @@ package "logger.py" {
   component "Funções de Logging" {
     () get_logger
   }
+  note right of "Funções de Logging"
+    Configura logging para:
+    - Console (INFO e acima)
+    - Arquivo 'src/softscrape/outputs/errors/log_errors.txt' (ERROR e acima)
+  end note
 }
 @enduml

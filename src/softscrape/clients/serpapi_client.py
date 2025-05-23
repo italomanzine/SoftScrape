@@ -19,10 +19,11 @@ class SerpApiClient:
         start: int,
         num: int = 10,
         hl: str = "pt",
-        gl: str = "br"
+        gl: str = "br",
+        engine: str = "google"  
     ) -> Dict[str, Any]:
         params = {
-            "engine": "google",
+            "engine": engine,  
             "q": query,
             "api_key": self.api_key,
             "start": start,
@@ -30,6 +31,7 @@ class SerpApiClient:
             "hl": hl,
             "gl": gl
         }
+        _log.info(f"Buscando com engine: {engine}, query: '{query[:50]}...', start: {start}")
         resp = requests.get(self.BASE_URL, params=params, timeout=10)
         resp.raise_for_status()
         return resp.json()

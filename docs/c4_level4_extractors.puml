@@ -11,6 +11,7 @@ package "extractors.py" {
     () extract_year
     () extract_doc_type
     () extract_base
+    () extract_abstract
   }
   ' Dependências externas (bibliotecas)
   note right of "Funções de Extração"

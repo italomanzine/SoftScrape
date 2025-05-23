@@ -13,42 +13,42 @@ title SoftScrape - Modelo C4 (Níveis 1-3)
 ' Nível 1: Diagrama de Contexto do Sistema
 ' Mostra o sistema SoftScrape em seu ambiente com usuários e sistemas externos.
 
-Person(usuario, "Usuário", "Executa o script, configura consultas e consome a saída CSV.")
-System_Ext(serp_api, "SerpAPI", "Provedor externo da API de Pesquisa Google. Usado para buscar resultados de pesquisa.")
-System_Ext(google_search, "Mecanismo de Pesquisa Google", "O mecanismo de pesquisa subjacente acessado via SerpAPI.")
+Person(usuario, "Usuário", "Executa o script, escolhe o motor de busca (Google/Scholar), configura consultas e consome a saída CSV.")
+System_Ext(serp_api, "SerpAPI", "Provedor externo de API de Pesquisa. Usado para buscar resultados de pesquisa do Google ou Google Scholar.")
+System_Ext(google_engines, "Mecanismos de Pesquisa Google", "Google Search e Google Scholar, acessados via SerpAPI.")
 System_Ext(target_websites, "Websites Alvo", "Páginas da web dos resultados de pesquisa que são raspadas para metadados.")
 
 System_Boundary(softscrape_limite_sistema, "Sistema SoftScrape (Nível 1)") {
     ' Nível 2: Diagrama de Contêiner
     ' Para este projeto, o "contêiner" principal é a própria aplicação Python.
-    Container(app_web_scraper, "Aplicação SoftScrape", "Aplicação Python", "Nível 2: Lida com consultas de pesquisa, raspa páginas da web para metadados (autor, ano, tipo, base) e exporta resultados para CSV.")
-    ContainerDb(sistema_arquivos, "Sistema de Arquivos", "Armazenamento", "Nível 2: Armazena configuração .env e arquivos CSV de saída em `src/softscrape/outputs/`.")
+    Container(app_web_scraper, "Aplicação SoftScrape", "Aplicação Python", "Nível 2: Lida com escolha do usuário para motor de busca, consultas de pesquisa, raspa páginas da web para metadados (autor, resumo, ano, tipo, base) e exporta resultados para CSV. Registra erros em arquivo.")
+    ContainerDb(sistema_arquivos, "Sistema de Arquivos", "Armazenamento", "Nível 2: Armazena configuração .env, arquivos CSV de saída e log de erros em `src/softscrape/outputs/`.")
 }
 
 ' Relacionamentos para Nível 1 & 2
-Rel(usuario, app_web_scraper, "Executa e Configura via `config.py` e `.env`")
-Rel(app_web_scraper, serp_api, "Faz chamadas de API para buscar resultados de pesquisa", "HTTPS/JSON")
-Rel(serp_api, google_search, "Consulta")
+Rel(usuario, app_web_scraper, "Executa, Escolhe motor e Configura via `config.py` e `.env`")
+Rel(app_web_scraper, serp_api, "Faz chamadas de API para buscar resultados de pesquisa no motor escolhido", "HTTPS/JSON")
+Rel(serp_api, google_engines, "Consulta")
 Rel(app_web_scraper, target_websites, "Busca conteúdo HTML de para extração de metadados", "HTTP/HTTPS")
-Rel(app_web_scraper, sistema_arquivos, "Lê `.env` de / Escreve CSV para `src/softscrape/outputs/`")
+Rel(app_web_scraper, sistema_arquivos, "Lê `.env` de / Escreve CSV e log de erros para `src/softscrape/outputs/`")
 
 ' Nível 3: Diagrama de Componentes (Dentro da Aplicação Web Scraper)
 ' Detalha a Aplicação Web Scraper em seus componentes chave (módulos/pacotes).
 System_Boundary(componentes_web_scraper, "Componentes da Aplicação SoftScrape") {
-    Component(main_py, "Orquestrador Principal (`main.py`)", "Módulo Python", "Nível 3: Coordena o processo geral: inicia pesquisas, aciona extração e gerencia exportação de dados. Ponto de entrada da aplicação.")
+    Component(main_py, "Orquestrador Principal (`main.py`)", "Módulo Python", "Nível 3: Gerencia a interação com o usuário para escolha do motor de busca. Coordena o processo geral: inicia pesquisas, aciona extração e gerencia exportação de dados. Ponto de entrada da aplicação.")
     Component(config_py, "Configuração (`config.py`)", "Módulo Python", "Nível 3: Carrega e fornece acesso às configurações da aplicação como chaves de API, consultas de pesquisa, paginação e durações de pausa. Lê de `.env`.")
-    Component(serpapi_client_py, "Cliente SerpAPI (`clients/serpapi_client.py`)", "Módulo Python", "Nível 3: Encapsula toda a lógica para interagir com a SerpAPI para realizar pesquisas.")
-    Component(extractors_py, "Extratores de Dados (`extractors.py`)", "Módulo Python", "Nível 3: Contém funções para extrair metadados específicos (autor, ano, tipo de documento, URL base) do conteúdo HTML de páginas da web.")
+    Component(serpapi_client_py, "Cliente SerpAPI (`clients/serpapi_client.py`)", "Módulo Python", "Nível 3: Encapsula toda a lógica para interagir com a SerpAPI para realizar pesquisas, aceitando um parâmetro de motor de busca.")
+    Component(extractors_py, "Extratores de Dados (`extractors.py`)", "Módulo Python", "Nível 3: Contém funções para extrair metadados específicos (autor, resumo, ano, tipo de documento, URL base) do conteúdo HTML de páginas da web.")
     Component(models_py, "Modelos de Dados (`models.py`)", "Módulo Python", "Nível 3: Define a estrutura de dados (`SearchResult` dataclass) para armazenar informações raspadas.")
-    Component(exporters_py, "Exportadores de Dados (`exporters.py`)", "Módulo Python", "Nível 3: Lida com a lógica para exportar os objetos `SearchResult` coletados para um arquivo CSV.")
-    Component(logger_py, "Logger (`logger.py`)", "Módulo Python", "Nível 3: Fornece uma instância de logger configurada para logging consistente em toda a aplicação.")
+    Component(exporters_py, "Exportadores de Dados (`exporters.py`)", "Módulo Python", "Nível 3: Lida com a lógica para exportar os objetos `SearchResult` coletados para um arquivo CSV, nomeado com o motor de busca utilizado.")
+    Component(logger_py, "Logger (`logger.py`)", "Módulo Python", "Nível 3: Fornece uma instância de logger configurada para logging consistente, incluindo registro de erros em `src/softscrape/outputs/errors/log_errors.txt`.")
 
     ' Relacionamentos de Componentes
     Rel(main_py, config_py, "Usa configurações de", "Lê instância `settings`")
-    Rel(main_py, serpapi_client_py, "Usa para realizar pesquisas", "Chama método `search()`")
-    Rel(main_py, extractors_py, "Usa para extrair metadados de páginas", "Chama funções `extract_*()`")
+    Rel(main_py, serpapi_client_py, "Usa para realizar pesquisas com motor escolhido", "Chama método `search()` com `engine`")
+    Rel(main_py, extractors_py, "Usa para extrair metadados de páginas", "Chama funções `extract_*()` incluindo `extract_abstract()`")
     Rel(main_py, models_py, "Usa para instanciar objetos `SearchResult`")
-    Rel(main_py, exporters_py, "Usa para salvar resultados em CSV", "Chama função `to_csv()`")
+    Rel(main_py, exporters_py, "Usa para salvar resultados em CSV", "Chama função `to_csv()` com `engine_name`")
     Rel(main_py, logger_py, "Usa para registrar eventos", "Chama `get_logger()`")
 
     Rel(serpapi_client_py, config_py, "Usa chave de API de", "Acessa `settings.SERPAPI_API_KEY`")
@@ -57,16 +57,8 @@ System_Boundary(componentes_web_scraper, "Componentes da Aplicação SoftScrape"
     Rel(extractors_py, target_websites, "Busca conteúdo HTML de") ' Implicitamente via biblioteca requests
 
     Rel(exporters_py, models_py, "Usa `SearchResult` para estruturar dados CSV")
-    Rel(exporters_py, sistema_arquivos, "Escreve arquivos CSV em")
+    Rel(exporters_py, sistema_arquivos, "Escreve arquivos CSV e log de erros em")
 }
-
-' Como os diagramas de Nível 4 estão em arquivos separados, eles não são definidos aqui.
-' Opcional: Comandos de estilo e layout podem ser mantidos se aplicáveis aos Níveis 1-3.
-' Lay_Distance(20)
-' Lay_D(user, softscrape_system_boundary)
-' Lay_R(softscrape_system_boundary, serp_api)
-' Lay_R(serp_api, google_search)
-' Lay_D(web_scraper_app, target_websites)
 
 hide empty members
 @enduml
